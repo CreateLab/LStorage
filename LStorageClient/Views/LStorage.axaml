@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:LStorageClient.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LStorageClient.Views.LStorage"
+        Opened="TopLevel_OnOpened"
+        Title="LStorage">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <viewModels:LStorageVM />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto,*">
+        <TextBlock Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                   IsVisible="{Binding IsShowRegisterWindow}">
+            Подождите идет загрузка
+        </TextBlock>
+        <ListBox Items="{Binding Projects}" SelectedItem="{Binding SelectedProject}" Margin="10"
+                 IsVisible="{Binding !IsShowRegisterWindow}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto,Auto" ColumnDefinitions="*,Auto"
+              IsVisible="{Binding !IsShowRegisterWindow}">
+            <TextBlock Text="{Binding ProjectName}"></TextBlock>
+            <Button Grid.Column="1" Command="{Binding UploadFile}" IsVisible="{Binding !IsFileUploading}">Загрузить</Button>
+            <TextBlock Grid.Column="1" IsVisible="{Binding IsFileUploading}">Подождите идет загрузка</TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Grid.ColumnSpan="2">
+                <ItemsRepeater Items="{Binding Files}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,1" Margin="5" BorderBrush="Black">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                    <Button Grid.Column="2"
+                                            Command="{Binding $parent[Window].DataContext.DownloadFile}"
+                                            CommandParameter="{Binding Id}">
+                                        ⟱
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </ScrollViewer>
+            <Border IsVisible="{Binding IsProjectSelected}" Name="DragDropControl" Margin="5" Grid.Row="2"
+                    Grid.ColumnSpan="2" DragDrop.AllowDrop="True" MinHeight="100" BorderBrush="Black"
+                    BorderThickness="1">
+                <TextBlock>Перенесите файл для загрузки</TextBlock>
+            </Border>
+            <TextBlock Grid.Row="3" Text="{Binding Space}" IsVisible="{Binding !IsShowRegisterWindow}"></TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>

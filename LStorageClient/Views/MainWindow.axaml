@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LStorageClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+        Width="300" Height="450"
+        x:Class="LStorageClient.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Opened="TopLevel_OnOpened"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="LStorageClient">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+    </Window.Styles>
+    
+
+    <Grid RowDefinitions="*">
+        <TextBlock IsVisible="{Binding !IsShowRegisterWindow }" HorizontalAlignment="Center" VerticalAlignment="Center"> Подождите, идет загрузка</TextBlock>
+        <Grid  RowDefinitions="*,Auto, Auto, Auto, Auto, Auto, *" IsVisible="{Binding IsShowRegisterWindow}">
+            <TextBox Grid.Row="1" Watermark="Email" Text="{Binding Email}" ></TextBox>
+            <TextBox Grid.Row="2" Watermark="Password" Text="{Binding Password}" ></TextBox>
+            <TextBox Grid.Row="3" Watermark="ServerUrl" Text="{Binding ServerUrl}"></TextBox>
+            <Button Grid.Row="4" Command="{Binding TryLogin}">Войти</Button>
+            <TextBlock Grid.Row="5" IsVisible="{Binding IsNotOk}" Margin="3" Foreground="Red">Что-то пошло не так, попробуйте еще раз</TextBlock>
+        </Grid>
+    </Grid>
+
+</Window>

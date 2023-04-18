@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:LStorageAdmin.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+        Width="900" Height="450"
+        x:Class="LStorageAdmin.Views.AdminWindow"
+        Opened="TopLevel_OnOpened"
+        Title="AdminWindow">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <viewModels:AdminViewModel />
+    </Design.DataContext>
+    <Grid>
+        <TextBlock IsVisible="{Binding IsShowRegisterWindow }" HorizontalAlignment="Center" VerticalAlignment="Center"> Подождите, идет загрузка</TextBlock>
+        <Grid ColumnDefinitions="*,Auto,*" IsVisible="{Binding !IsShowRegisterWindow}">
+            <Grid Grid.Column="0" RowDefinitions="*,Auto" Name="Users">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsRepeater Items="{Binding Users}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="0,1" BorderBrush="Black" Margin="2">
+                                    <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto">
+                                        <TextBlock Margin="5" Text="{Binding Name}"></TextBlock>
+                                        <TextBlock Grid.Column="1" Margin="5" Text="{Binding Role }"></TextBlock>
+                                        <TextBlock Grid.Column="2" Margin="5" Text="{Binding Email }"></TextBlock>
+                                        <Button Grid.Column="4" Margin="5"
+                                                Command="{Binding $parent[Window].DataContext.ShowUserInfo}"
+                                                CommandParameter="{Binding Email}">
+                                            ?
+                                        </Button>
+                                        <Button Grid.Column="5" Margin="5"
+                                                Command="{Binding $parent[Window].DataContext.DeleteUser}"
+                                                CommandParameter="{Binding Email}">
+                                            X
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+                <Button Margin="10" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding AddUser}">
+                    Добавить пользователя
+                </Button>
+            </Grid>
+            <GridSplitter Grid.Column="1"></GridSplitter>
+            <Grid Grid.Column="2" RowDefinitions="*,Auto" Name="Projects">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsRepeater Items="{Binding Projects}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="0,1" BorderBrush="Black" Margin="2">
+                                    <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+                                        <TextBlock Margin="5" Text="{Binding Name}"></TextBlock>
+                                        <Button Grid.Column="3" Margin="5"
+                                                Command="{Binding $parent[Window].DataContext.ShowProjectInfoWindow}"
+                                                CommandParameter="{Binding Id}">
+                                            ?
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+                <Button Margin="10" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding AddProject}">
+                    Добавить проект
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
