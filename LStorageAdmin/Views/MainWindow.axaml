@@ -3,15 +3,30 @@
         xmlns:vm="using:LStorageAdmin.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
-        Width="300" Height="450"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"
+        Width="500" Height="450"
         x:Class="LStorageAdmin.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
         Opened="TopLevel_OnOpened"
-        Title="LStorageAdmin">
+        Icon="/Assets/logo.png"
+        Title="Линейные изыскания">
 
     <Window.Styles>
+        <Style Selector="Button.default">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Background" Value="#8AC64C"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        </Style>
+        <Style Selector="TextBox:pressed /template/ ContentPresenter">
+            <Setter Property="BorderBrush" Value="#8AC64C" />
+        </Style>
+        <Style Selector="TextBlock /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+        </Style>
         <Style Selector="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -21,10 +36,8 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
         </Style>
-        <Style Selector="Button">
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="10"></Setter>
+        <Style Selector="Button /template/ ContentPresenter">
+            <Setter Property="CornerRadius" Value="20"/>
         </Style>
     </Window.Styles>
     
@@ -36,12 +49,16 @@
 
     <Grid RowDefinitions="*">
         <TextBlock IsVisible="{Binding !IsShowRegisterWindow }" HorizontalAlignment="Center" VerticalAlignment="Center"> Подождите, идет загрузка</TextBlock>
-        <Grid  RowDefinitions="*,Auto, Auto, Auto, Auto, Auto, *" IsVisible="{Binding IsShowRegisterWindow}">
-            <TextBox Grid.Row="1" Watermark="Email" Text="{Binding Email}" ></TextBox>
-            <TextBox Grid.Row="2" Watermark="Password" Text="{Binding Password}" ></TextBox>
-            <TextBox Grid.Row="3" Watermark="ServerUrl" Text="{Binding ServerUrl}"></TextBox>
-            <Button Grid.Row="4" Command="{Binding TryLogin}">Войти</Button>
-            <TextBlock Grid.Row="5" IsVisible="{Binding IsNotOk}" Margin="3" Foreground="Red">Что-то пошло не так, попробуйте еще раз</TextBlock>
+        <Grid  RowDefinitions="* Auto,Auto, Auto, Auto, Auto, Auto, *" IsVisible="{Binding IsShowRegisterWindow}">
+            <Grid Grid.Row="1" Grid.ColumnDefinitions="*,Auto,Auto,*">
+                <Image Grid.Column="1" Source="/Assets/logo.png" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"></TextBlock>
+            </Grid>
+            <TextBox Grid.Row="2" Watermark="Email" Text="{Binding Email}" ></TextBox>
+            <TextBox Grid.Row="3" Watermark="Пароль" Text="{Binding Password}" ></TextBox>
+            <TextBox Grid.Row="4" Watermark="ServerUrl" Text="{Binding ServerUrl}"></TextBox>
+            <Button Classes="default" Grid.Row="5" Command="{Binding TryLogin}">Войти</Button>
+            <TextBlock Grid.Row="6" IsVisible="{Binding IsNotOk}" Margin="3" Foreground="Red">Что-то пошло не так, попробуйте еще раз</TextBlock>
         </Grid>
     </Grid>
 

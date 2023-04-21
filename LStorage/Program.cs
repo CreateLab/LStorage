@@ -75,7 +75,7 @@ using (var context = factory.CreateDbContext())
         if (lines.Count() >= 2)
         {
             var adminEmail = lines[0].Trim();
-            var password = lines[0].Trim();
+            var password = lines[1].Trim();
             var admin = await context.Users.FirstOrDefaultAsync(u => u.Email == adminEmail);
             if (admin == null)
             {

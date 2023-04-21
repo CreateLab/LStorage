@@ -7,8 +7,25 @@
         Width="900" Height="450"
         x:Class="LStorageAdmin.Views.AdminWindow"
         Opened="TopLevel_OnOpened"
-        Title="AdminWindow">
+        Icon="/Assets/logo.png"
+        Title="Линейные изыскания">
 
+    <Window.Styles>
+        <Style Selector="Button.default">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Background" Value="#8AC64C"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        </Style>
+        <Style Selector="Button.selected">
+            <Setter Property="Foreground" Value="#8AC64C"></Setter>
+        </Style>
+        <Style Selector="Button.list">
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+    </Window.Styles>
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -16,8 +33,16 @@
     </Design.DataContext>
     <Grid>
         <TextBlock IsVisible="{Binding IsShowRegisterWindow }" HorizontalAlignment="Center" VerticalAlignment="Center"> Подождите, идет загрузка</TextBlock>
-        <Grid ColumnDefinitions="*,Auto,*" IsVisible="{Binding !IsShowRegisterWindow}">
-            <Grid Grid.Column="0" RowDefinitions="*,Auto" Name="Users">
+        <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding !IsShowRegisterWindow}">
+            <Grid Grid.RowDefinitions="Auto,Auto,Auto,*">
+                <Grid Grid.Row="1" Grid.ColumnDefinitions="*,Auto,Auto,*">
+                    <Image Grid.Column="1" Source="/Assets/logo.png" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"></TextBlock>
+                </Grid>
+                <Button Grid.Row="1" Classes="list" Classes.selected = "{Binding IsUsersSelected}">Пользователи</Button>
+                <Button Grid.Row="2" Classes="list" Classes.selected = "{Binding !IsUsersSelected}">Проекты</Button>
+            </Grid>
+              <Grid Grid.Column="1" RowDefinitions="*,Auto" Name="Users" IsVisible="{Binding IsUsersSelected}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
                     <ItemsRepeater Items="{Binding Users}">
                         <ItemsRepeater.ItemTemplate>
@@ -48,8 +73,7 @@
                     Добавить пользователя
                 </Button>
             </Grid>
-            <GridSplitter Grid.Column="1"></GridSplitter>
-            <Grid Grid.Column="2" RowDefinitions="*,Auto" Name="Projects">
+        <Grid Grid.Column="1" RowDefinitions="*,Auto" Name="Projects" IsVisible="{Binding !IsUsersSelected}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
                     <ItemsRepeater Items="{Binding Projects}">
                         <ItemsRepeater.ItemTemplate>
@@ -74,5 +98,5 @@
                 </Button>
             </Grid>
         </Grid>
-    </Grid>
+        </Grid>
 </Window>

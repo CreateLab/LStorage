@@ -18,6 +18,7 @@ public class MainWindowViewModel : ViewModelBase, IShowRegisterWindow
     private string _password;
     private string _serverUrl;
 
+    public string Name => "ООО \"Линейные изыскания\"";
     public bool IsShowRegisterWindow
     {
         get => _isShowRegisterWindow;

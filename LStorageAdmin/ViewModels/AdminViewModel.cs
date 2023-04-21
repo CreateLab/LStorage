@@ -14,6 +14,7 @@ namespace LStorageAdmin.ViewModels;
 public class AdminViewModel : ViewModelBase, IShowRegisterWindow, ISetDefaultValues
 {
     private bool _isShowRegisterWindow;
+    private bool _isUsersSelected;
     private readonly IUserWindowApi _userWindowApi;
     public ObservableCollection<UserDto> Users { get; set; }
     public ObservableCollection<ProjectDto> Projects { get; set; }
@@ -23,12 +24,19 @@ public class AdminViewModel : ViewModelBase, IShowRegisterWindow, ISetDefaultVal
         get => _isShowRegisterWindow;
         set => this.RaiseAndSetIfChanged(ref _isShowRegisterWindow, value);
     }
+    
+    public bool IsUsersSelected
+    {
+        get => _isUsersSelected;
+        set => this.RaiseAndSetIfChanged(ref _isUsersSelected, value);
+    }
 
     public AdminViewModel(IUserWindowApi userWindowApi)
     {
         Users = new ObservableCollection<UserDto>();
         Projects = new ObservableCollection<ProjectDto>();
         _userWindowApi = userWindowApi;
+        IsUsersSelected = true;
     }
 
     public async Task UpdateWindow()
